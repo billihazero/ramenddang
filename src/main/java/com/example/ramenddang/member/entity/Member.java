@@ -10,11 +10,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class MemberEntity {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int memberIdx;
+    private Integer memberIdx;
 
     private String memberId;
     private String memberPw;
@@ -22,5 +22,7 @@ public class MemberEntity {
     private String memberNknm;
     private String memberTel;
     private String memberEmail;
+
+    private String role;
 
 }
