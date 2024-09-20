@@ -15,31 +15,27 @@ public class JoinService {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
     public void joinProcess(JoinDTO joinDTO) {
+        String userLoginId = joinDTO.userLoginId();
+        String userPasswd = joinDTO.userPasswd();
+        String userPhone = joinDTO.userPhone();
 
-        String memberId = joinDTO.getMemberId();
-        String memberPw = joinDTO.getMemberPw();
-        String memberNm = joinDTO.getMemberNm();
-        String memberNknm = joinDTO.getMemberNknm();
-        String memberTel = joinDTO.getMemberTel();
-        String memberEmail = joinDTO.getMemberEmail();
-
-        Boolean isExist = memberRepository.existsByMemberId(memberId);
-        if(isExist){
-            throw new IllegalArgumentException("이미 존재하는 회원 입니다.");
-        }
+        String userName = joinDTO.userName();
+        String userNickname = joinDTO.userNickname();
+        String userEmail = joinDTO.userEmail();
 
         Member member = new Member();
 
-        member.setMemberId(memberId);
+        member.setUserLoginId(userLoginId);
+        member.setUserPasswd(bCryptPasswordEncoder.encode(userPasswd));
+        member.setUserPhone(userPhone);
 
-        member.setMemberPw(bCryptPasswordEncoder.encode(memberPw));
-        member.setMemberNm(memberNm);
-        member.setMemberNknm(memberNknm);
-        member.setMemberTel(memberTel);
-        member.setMemberEmail(memberEmail);
+        member.setUserName(userName);
+        member.setUserNickname(userNickname);
+        member.setUserEmail(userEmail);
 
-        member.setRole("ROLE_USER");
+        member.setUserRole("ROLE_USER");
 
         memberRepository.save(member);
 

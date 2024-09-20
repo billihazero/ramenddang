@@ -2,13 +2,13 @@ spring:
   application:
     name: rammenddang
   datasource:
-    url: "jdbc:mysql://localhost/rammenddang"
+    url: "jdbc:mysql://localhost/ramenddang"
     username: "root"
     password: "1234"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true

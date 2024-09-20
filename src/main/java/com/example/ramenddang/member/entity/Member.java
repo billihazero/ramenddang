@@ -1,9 +1,6 @@
 package com.example.ramenddang.member.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,15 +11,21 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer memberIdx;
+    private Long userId;
 
-    private String memberId;
-    private String memberPw;
-    private String memberNm;
-    private String memberNknm;
-    private String memberTel;
-    private String memberEmail;
+    @Column(unique = true)
+    private String userLoginId;
+    private String userPasswd;
+    private String userPhone;
 
-    private String role;
+    private String userName;
+    private String userNickname;
+    private String userEmail;
+
+    private String userRole;
+
+    private Boolean isDeleted = false;
+
+    //private String userImg;
 
 }
