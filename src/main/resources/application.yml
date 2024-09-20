@@ -1,6 +1,6 @@
 spring:
-  application:
-    name: rammenddang
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
   datasource:
     url: "jdbc:mysql://localhost/ramenddang"
     username: "root"
