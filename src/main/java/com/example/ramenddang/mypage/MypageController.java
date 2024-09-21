@@ -23,9 +23,9 @@ public class MypageController {
     public ResponseEntity<Member> getMyPage(@RequestHeader("Authorization")String authorizationHeader) {
 
         String accessToken = authorizationHeader.substring(7);
-        String userLoginId =jwtUtil.getUserLoginId(accessToken);
+        Long userId =jwtUtil.getUserId(accessToken);
 
-        Member memberData = myPageService.getMyPage(userLoginId);
+        Member memberData = myPageService.getMyPage(userId);
 
         return ResponseEntity.ok(memberData);
 
