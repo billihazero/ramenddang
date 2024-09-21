@@ -13,10 +13,9 @@ public class MyPageService {
         this.memberRepository = memberRepository;
     }
 
-    public Member getMyPage(Long userId) {
+    public Member getMyPage(String userLoginId) {
 
-         Member memberData =  memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+         Member memberData =  memberRepository.findByUserLoginId(userLoginId);
 
          return memberData;
     }

@@ -3,10 +3,9 @@ package com.example.ramenddang.mypage;
 import com.example.ramenddang.member.entity.Member;
 import com.example.ramenddang.member.jwt.JWTUtil;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MypageController {
@@ -20,14 +19,16 @@ public class MypageController {
     }
 
     @GetMapping("/memberget")
-    public ResponseEntity<Member> getMyPage(@RequestHeader("Authorization")String authorizationHeader) {
+    public ResponseEntity<Member> getMyPage() {
 
-        String accessToken = authorizationHeader.substring(7);
-        Long userId =jwtUtil.getUserId(accessToken);
+        // SecurityContextHolder에서 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userLoginId = authentication.getName(); // 인증된 사용자의 userLoginId
 
-        Member memberData = myPageService.getMyPage(userId);
+        // userLoginId를 통해 사용자 정보 조회
+        Member memberData = myPageService.getMyPage(userLoginId);
 
         return ResponseEntity.ok(memberData);
-
     }
+
 }
