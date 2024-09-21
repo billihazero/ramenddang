@@ -73,14 +73,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access",userId, userLoginId, role, 60000L);
-        String refresh = jwtUtil.createJwt("refresh",userId, userLoginId, role, 864000L);
+        String access = jwtUtil.createJwt("access",userId, userLoginId, role, 20L);
+        String refresh = jwtUtil.createJwt("refresh",userId, userLoginId, role, 1440L);
 
         //db에 저장
-        addRefresh(userLoginId, refresh, 8640000L);
+        addRefresh(userLoginId, refresh, 1440L);
 
         //캐시에 저장
-        tokenService.cacheUserRefresh(userLoginId, refresh,86400000L);
+        tokenService.cacheUserRefresh(refresh);
+
         response.addHeader("Authorization", "Bearer " + access);
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
@@ -107,9 +108,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         return cookie;
     }
 
-    private void addRefresh(String userLoginId, String refresh, Long expiredMs) {
+    private void addRefresh(String userLoginId, String refresh, Long expiredMinutes) {
 
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
+        Date date = new Date(System.currentTimeMillis() + expiredMinutes);
 
         UserRefresh userRefresh = new UserRefresh();
         userRefresh.setUserLoginId(userLoginId);

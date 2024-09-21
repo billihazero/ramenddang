@@ -43,7 +43,10 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String category, Long userId, String userLoginId, String role, Long expiredMs) {
+    public String createJwt(String category, Long userId, String userLoginId, String role, Long expiredMinutes) {
+
+        // 분 단위를 밀리초로 변환
+        Long expiredMs = expiredMinutes * 60 * 1000;
 
         return Jwts.builder()
                 .claim("category", category)

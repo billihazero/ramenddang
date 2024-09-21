@@ -76,7 +76,7 @@ public class ReissueController {
         }
 
         //저장한 정보를 통해 새로운 토큰 생성
-        String newAccess = jwtUtil.createJwt("access", userId, userLoginId, role, 600000L);
+        String newAccess = jwtUtil.createJwt("access", userId, userLoginId, role, 1440L);
         System.out.println("새로운 토큰 발급");
         response.setHeader("Authorization", "Bearer " + newAccess);
 

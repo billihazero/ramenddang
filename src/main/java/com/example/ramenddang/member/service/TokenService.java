@@ -15,7 +15,7 @@ public class TokenService {
     }
 
     @CachePut(cacheNames = "userRefresh", key = "'refresh:' + #refresh ", cacheManager = "refreshCacheManager")
-    public UserRefresh cacheUserRefresh(String userLoginId, String refresh, Long expiredMs) {
+    public UserRefresh cacheUserRefresh(String refresh) {
 
         UserRefresh userRefresh = new UserRefresh();
         userRefresh.setRefresh(refresh);
