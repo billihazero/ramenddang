@@ -65,6 +65,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 
+        Long userId = memberDetails.getUserId();
         String userLoginId = memberDetails.getUsername();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -72,8 +73,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access",userLoginId, role, 60000L);
-        String refresh = jwtUtil.createJwt("refresh",userLoginId, role, 864000L);
+        String access = jwtUtil.createJwt("access",userId, userLoginId, role, 60000L);
+        String refresh = jwtUtil.createJwt("refresh",userId, userLoginId, role, 864000L);
 
         //db에 저장
         addRefresh(userLoginId, refresh, 8640000L);
@@ -83,6 +84,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader("Authorization", "Bearer " + access);
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
+
+        System.out.println("access발급 성공 !" + "userId:" +userId + "userLoginId:" + userLoginId);
 
     }
 

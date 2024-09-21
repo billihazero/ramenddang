@@ -64,6 +64,7 @@ public class ReissueController {
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }
 
+        Long userId = jwtUtil.getUserId(refresh);
         String userLoginId = jwtUtil.getUserLoginId(refresh);
         String role = jwtUtil.getRole(refresh);
 
@@ -75,7 +76,7 @@ public class ReissueController {
         }
 
         //저장한 정보를 통해 새로운 토큰 생성
-        String newAccess = jwtUtil.createJwt("access", userLoginId, role, 600000L);
+        String newAccess = jwtUtil.createJwt("access", userId, userLoginId, role, 600000L);
         System.out.println("새로운 토큰 발급");
         response.setHeader("Authorization", "Bearer " + newAccess);
 

@@ -34,6 +34,10 @@ public class MemberDetails implements UserDetails {
         return member.getUserPasswd();
     }
 
+    public Long getUserId() {
+        return member.getUserId();
+    }
+
     @Override
     public String getUsername() {
         return member.getUserLoginId();
