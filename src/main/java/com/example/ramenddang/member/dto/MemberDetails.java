@@ -38,6 +38,10 @@ public class MemberDetails implements UserDetails {
         return member.getUserId();
     }
 
+    public boolean isDeleted(){
+        return member.getIsDeleted();
+    }
+
     @Override
     public String getUsername() {
         return member.getUserLoginId();

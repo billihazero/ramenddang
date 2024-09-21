@@ -62,8 +62,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+
+        // 삭제된 계정인지 확인
+        if (memberDetails.isDeleted()) {
+            // 삭제된 계정일 경우 로그인 차단
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("Account is deleted.");
+            return;
+        }
 
         Long userId = memberDetails.getUserId();
         String userLoginId = memberDetails.getUsername();
