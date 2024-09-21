@@ -23,24 +23,39 @@ public class MyPageService {
          return memberData;
     }
 
-    public Member updateMyPage(String userLoginId, MyPageUpdateDTO myPageUpdateDTO) {
+    public Member updateMember(String userLoginId, UpdateMemberDTO updateMemberDTO) {
         
         //기존 회원정보 조회
         Member existingMember = memberRepository.findByUserLoginId(userLoginId);
 
         // 기존 비밀번호와 DTO로 받은 비밀번호 비교
-        if (!passwordEncoder.matches(myPageUpdateDTO.userPasswd(), existingMember.getUserPasswd())) {
+        if (!passwordEncoder.matches(updateMemberDTO.userPasswd(), existingMember.getUserPasswd())) {
             throw new IllegalArgumentException("Password does not match");
         }
 
         //업데이트
-        existingMember.setUserPhone(myPageUpdateDTO.userPhone());
-        existingMember.setUserName(myPageUpdateDTO.userName());
-        existingMember.setUserNickname(myPageUpdateDTO.userNickname());
-        existingMember.setUserEmail(myPageUpdateDTO.userEmail());
+        existingMember.setUserPhone(updateMemberDTO.userPhone());
+        existingMember.setUserName(updateMemberDTO.userName());
+        existingMember.setUserNickname(updateMemberDTO.userNickname());
+        existingMember.setUserEmail(updateMemberDTO.userEmail());
 
         return memberRepository.save(existingMember);
 
+
+    }
+
+    public boolean deleteMember(String userLoginId, DeleteMemberDTO deleteMemberDTO) {
+        Member existingMember = memberRepository.findByUserLoginId(userLoginId);
+
+        String inputPasswd = deleteMemberDTO.inputPasswd();
+        if (passwordEncoder.matches(inputPasswd, existingMember.getUserPasswd())) {
+            existingMember.setIsDeleted(true);
+            memberRepository.save(existingMember);
+
+            return true;
+        }else{
+            throw new IllegalArgumentException("Password does not match");
+        }
 
     }
 }

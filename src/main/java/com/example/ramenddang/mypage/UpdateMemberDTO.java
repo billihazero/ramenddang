@@ -1,6 +1,6 @@
 package com.example.ramenddang.mypage;
 
-public record MyPageUpdateDTO(
+public record UpdateMemberDTO(
         String userPasswd,
         String userPhone,
 

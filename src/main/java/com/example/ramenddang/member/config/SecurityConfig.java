@@ -85,7 +85,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth)-> auth
                         //로그인, 루트, 조인 경로는 모든 권한을 허용
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/login", "/", "/memberjoin").permitAll()
                         .requestMatchers("/reissue").permitAll()
 
                         //admin 경로는 "ADMIN" 권한 가진자만 허용

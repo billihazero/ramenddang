@@ -35,13 +35,28 @@ public class MypageController {
     }
 
     @PutMapping("/memberupdate")
-    public ResponseEntity<Member> updateMyPage(@RequestBody MyPageUpdateDTO myPageUpdateDTO) {
+    public ResponseEntity<Member> updateMember(@RequestBody UpdateMemberDTO updateMemberDTO) {
 
         String userLoginId = getCurrentUserLoginId();
 
-        Member updateMemberData = myPageService.updateMyPage(userLoginId, myPageUpdateDTO);
+        Member updateMemberData = myPageService.updateMember(userLoginId, updateMemberDTO);
 
         return ResponseEntity.ok(updateMemberData);
+    }
+
+    @PutMapping("/memberdelete")
+    public ResponseEntity<String> deleteMember(@RequestBody DeleteMemberDTO deleteMemberDTO) {
+        String userLoginId = getCurrentUserLoginId();
+
+        boolean isDeleted = myPageService.deleteMember(userLoginId, deleteMemberDTO);
+
+        if (isDeleted) {
+            return ResponseEntity.ok("회원 정보가 성공적으로 삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
+
+        }
+
     }
 
 }
