@@ -26,6 +26,6 @@ public class Member {
 
     private Boolean isDeleted = false;
 
-    //private String userImg;
-
+    @OneToOne(mappedBy = "member")
+    private Profile profile;
 }
