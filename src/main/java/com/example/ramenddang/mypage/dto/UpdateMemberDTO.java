@@ -1,4 +1,4 @@
-package com.example.ramenddang.mypage;
+package com.example.ramenddang.mypage.dto;
 
 public record UpdateMemberDTO(
         String userPasswd,

@@ -1,7 +1,9 @@
-package com.example.ramenddang.mypage;
+package com.example.ramenddang.mypage.service;
 
 import com.example.ramenddang.member.entity.Member;
 import com.example.ramenddang.member.repository.MemberRepository;
+import com.example.ramenddang.mypage.dto.DeleteMemberDTO;
+import com.example.ramenddang.mypage.dto.UpdateMemberDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

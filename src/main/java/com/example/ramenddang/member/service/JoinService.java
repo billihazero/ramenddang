@@ -2,6 +2,7 @@ package com.example.ramenddang.member.service;
 
 import com.example.ramenddang.member.dto.JoinDTO;
 import com.example.ramenddang.member.entity.Member;
+import com.example.ramenddang.member.entity.Profile;
 import com.example.ramenddang.member.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,5 @@ public class JoinService {
         member.setUserRole("ROLE_USER");
 
         memberRepository.save(member);
-
-
     }
 }

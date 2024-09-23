@@ -1,7 +1,9 @@
-package com.example.ramenddang.mypage;
+package com.example.ramenddang.mypage.controller;
 
 import com.example.ramenddang.member.entity.Member;
-import com.example.ramenddang.member.jwt.JWTUtil;
+import com.example.ramenddang.mypage.dto.DeleteMemberDTO;
+import com.example.ramenddang.mypage.dto.UpdateMemberDTO;
+import com.example.ramenddang.mypage.service.MyPageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,11 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MypageController {
 
-    private final JWTUtil jwtUtil;
     private final MyPageService myPageService;
 
-    public MypageController(JWTUtil jwtUtil, MyPageService myPageService) {
-        this.jwtUtil = jwtUtil;
+    public MypageController(MyPageService myPageService) {
         this.myPageService = myPageService;
     }
 

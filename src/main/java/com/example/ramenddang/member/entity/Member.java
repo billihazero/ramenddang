@@ -27,5 +27,6 @@ public class Member {
     private Boolean isDeleted = false;
 
     @OneToOne(mappedBy = "member")
+
     private Profile profile;
 }
