@@ -1,6 +1,6 @@
 package com.example.ramenddang.mypage.controller;
 
-import com.example.ramenddang.member.entity.Member;
+import com.example.ramenddang.join.entity.Member;
 import com.example.ramenddang.mypage.dto.DeleteMemberDTO;
 import com.example.ramenddang.mypage.dto.UpdateMemberDTO;
 import com.example.ramenddang.mypage.service.MyPageService;
