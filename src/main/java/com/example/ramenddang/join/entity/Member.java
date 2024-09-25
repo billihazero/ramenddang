@@ -1,6 +1,7 @@
 package com.example.ramenddang.join.entity;
 
 import com.example.ramenddang.mypage.entity.Profile;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ public class Member {
 
     private Boolean isDeleted = false;
 
-    @OneToOne(mappedBy = "member")
-
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonManagedReference //순환참고 해결
     private Profile profile;
 }

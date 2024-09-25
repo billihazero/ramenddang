@@ -1,5 +1,6 @@
 package com.example.ramenddang.login.controller;
 
+import com.example.ramenddang.login.dto.MemberDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +14,7 @@ import java.util.Iterator;
 public class CheckController {
 
     @GetMapping("/")
-    public String mainP(){
+    public String mainP() {
 
         String userLoginId = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -24,6 +25,14 @@ public class CheckController {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
-        return "Check Controller: " + userLoginId + role;
+        MemberDetails memberDetails = (MemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = memberDetails.getUserId();
+
+        return "Check Controller: " + userId + userLoginId + role;
+
+
     }
 }
+
+
+

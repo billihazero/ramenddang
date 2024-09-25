@@ -30,3 +30,8 @@ logging:
       hibernate:
         sql: debug
     org.springframework.cache: trace
+
+profile:
+  image:
+    dir: "src/main/resources/static/profiles"
+    url: "/profiles/"

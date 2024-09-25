@@ -2,6 +2,7 @@ package com.example.ramenddang.join.controller;
 
 import com.example.ramenddang.join.dto.JoinDTO;
 import com.example.ramenddang.join.service.JoinService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +17,10 @@ public class JoinController {
     }
 
     @PostMapping("/memberjoin")
-    public String joinProcess(@RequestBody JoinDTO joinDTO) {
+    public ResponseEntity<String> joinProcess(@RequestBody JoinDTO joinDTO) {
         joinService.joinProcess(joinDTO);
 
-        return "join success";
+        return ResponseEntity.ok("join success");
     }
 
 }
