@@ -33,5 +33,10 @@ logging:
 
 profile:
   image:
-    dir: "src/main/resources/static/profiles"
+    dir: "src/main/resources/static/profiles/"
     url: "/profiles/"
+
+ramen:
+  image:
+    dir: "src/main/resources/static/ramen/"
+    url: "/ramen/"

@@ -1,6 +1,9 @@
 package com.example.ramenddang.ramen.dto;
 
+import com.example.ramenddang.ramen.entity.RamenPhoto;
 import jakarta.persistence.Column;
+
+import java.util.List;
 
 public record RamenDTO(
         String ramenName,
@@ -9,6 +12,7 @@ public record RamenDTO(
         String ramenContent,
         String ramenState,
         String ramenCity,
-        String ramenAddress
+        String ramenAddress,
+        List<RamenPhoto> ramenPhotos
 ) {
 }
