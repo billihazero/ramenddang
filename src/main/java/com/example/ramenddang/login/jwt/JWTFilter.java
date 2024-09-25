@@ -1,5 +1,7 @@
 package com.example.ramenddang.login.jwt;
 
+import com.example.ramenddang.join.entity.Member;
+import com.example.ramenddang.login.dto.MemberDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -74,11 +76,19 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         //토큰에서 loginId와 role 획득
+        Long userId = jwtUtil.getUserId(accessToken);
         String userLoginId = jwtUtil.getUserLoginId(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setUserLoginId(userLoginId);
+        member.setUserRole(role);
+
+        MemberDetails memberDetails = new MemberDetails(member);
+
         //토큰 생성
-        Authentication authToken = new UsernamePasswordAuthenticationToken(userLoginId, null, List.of(() -> role));
+        Authentication authToken = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         //세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);
 

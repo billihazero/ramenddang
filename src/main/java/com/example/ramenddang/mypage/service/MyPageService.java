@@ -18,17 +18,17 @@ public class MyPageService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Member getMyPage(String userLoginId) {
+    public Member getMyPage(Long userId) {
 
-         Member memberData =  memberRepository.findByUserLoginId(userLoginId);
+         Member memberData =  memberRepository.findByUserId(userId);
 
          return memberData;
     }
 
-    public Member updateMember(String userLoginId, UpdateMemberDTO updateMemberDTO) {
-        
+    public Member updateMember(Long userId, UpdateMemberDTO updateMemberDTO) {
+
         //기존 회원정보 조회
-        Member existingMember = memberRepository.findByUserLoginId(userLoginId);
+        Member existingMember = memberRepository.findByUserId(userId);
 
         // 기존 비밀번호와 DTO로 받은 비밀번호 비교
         if (!passwordEncoder.matches(updateMemberDTO.userPasswd(), existingMember.getUserPasswd())) {
@@ -46,8 +46,8 @@ public class MyPageService {
 
     }
 
-    public boolean deleteMember(String userLoginId, DeleteMemberDTO deleteMemberDTO) {
-        Member existingMember = memberRepository.findByUserLoginId(userLoginId);
+    public boolean deleteMember(Long userId, DeleteMemberDTO deleteMemberDTO) {
+        Member existingMember = memberRepository.findByUserId(userId);
 
         String inputPasswd = deleteMemberDTO.inputPasswd();
         if (passwordEncoder.matches(inputPasswd, existingMember.getUserPasswd())) {
