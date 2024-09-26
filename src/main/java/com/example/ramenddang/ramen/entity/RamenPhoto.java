@@ -18,9 +18,6 @@ public class RamenPhoto {
     private String originalName;
     private String photoUrl;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime deletedAt;
-
     private Boolean isDeleted = false;
 
     @ManyToOne

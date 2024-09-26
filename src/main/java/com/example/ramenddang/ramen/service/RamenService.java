@@ -1,12 +1,14 @@
 package com.example.ramenddang.ramen.service;
 
 import com.example.ramenddang.ramen.dto.RamenDTO;
+import com.example.ramenddang.ramen.dto.UpdateRamenDTO;
 import com.example.ramenddang.ramen.entity.Ramen;
 import com.example.ramenddang.ramen.entity.RamenPhoto;
 import com.example.ramenddang.ramen.repository.RamenPhotoRepository;
 import com.example.ramenddang.ramen.repository.RamenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -51,5 +53,23 @@ public class RamenService {
 
         ramenPhotoService.uploadRamenPhoto(ramen, ramenPhotos);
 
+    }
+
+    public Ramen ramenUpdate(@PathVariable Long ramenId, UpdateRamenDTO updateRamenDTO, List<MultipartFile> ramenPhotos) {
+
+        Ramen existingRamen = ramenRepository.findByRamenId(ramenId);
+
+        existingRamen.setRamenName(updateRamenDTO.ramenName());
+        existingRamen.setRamenMenu(updateRamenDTO.ramenMenu());
+        existingRamen.setRamenContent(updateRamenDTO.ramenContent());
+        existingRamen.setRamenState(updateRamenDTO.ramenState());
+        existingRamen.setRamenCity(updateRamenDTO.ramenCity());
+        existingRamen.setRamenAddress(updateRamenDTO.ramenAddress());
+
+        ramenRepository.save(existingRamen);
+
+        ramenPhotoService.updateRamenPhoto(existingRamen, ramenPhotos);
+
+        return existingRamen;
     }
 }
