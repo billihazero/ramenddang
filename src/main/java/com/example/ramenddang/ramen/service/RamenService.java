@@ -20,17 +20,24 @@ public class RamenService {
     private final RamenPhotoRepository ramenPhotoRepository;
     private final RamenPhotoService ramenPhotoService;
 
+
     @Value("${ramen.image.dir}")
     private String ramenPhotoDir;
 
     @Value("${ramen.image.url}")
     private String ramenPhotoUrl;
 
+
     public RamenService(RamenRepository ramenRepository, RamenPhotoRepository ramenPhotoRepository, RamenPhotoService ramenPhotoService) {
         this.ramenRepository = ramenRepository;
         this.ramenPhotoRepository = ramenPhotoRepository;
         this.ramenPhotoService = ramenPhotoService;
     }
+
+    public List<Ramen> gatAllRamen(){
+        return ramenRepository.findByIsDeletedFalse();
+    }
+
 
     public void ramenWrite(RamenDTO ramenDTO, List<MultipartFile> ramenPhotos) {
 
@@ -55,6 +62,11 @@ public class RamenService {
 
     }
 
+    public Ramen getRamenDetail(int ramenId) {
+        return ramenRepository.findByRamenIdAndIsDeletedFalse(ramenId)
+                .orElseThrow(() -> new RuntimeException("Ramen not found or is deleted for id: " + ramenId));
+    }
+
     public Ramen ramenUpdate(@PathVariable Long ramenId, UpdateRamenDTO updateRamenDTO, List<MultipartFile> ramenPhotos) {
 
         Ramen existingRamen = ramenRepository.findByRamenId(ramenId);
@@ -71,5 +83,14 @@ public class RamenService {
         ramenPhotoService.updateRamenPhoto(existingRamen, ramenPhotos);
 
         return existingRamen;
+    }
+
+
+    public boolean ramenDelete(Long ramenId) {
+        Ramen existingRamen = ramenRepository.findByRamenId(ramenId);
+        existingRamen.setIsDeleted(true);
+        ramenRepository.save(existingRamen);
+
+        return true;
     }
 }

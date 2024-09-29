@@ -1,5 +1,6 @@
 package com.example.ramenddang.ramen.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class RamenPhoto {
 
     @ManyToOne
     @JoinColumn(name = "ramenId")
+    @JsonBackReference // 참조 쪽
     private Ramen ramen;
 
 }

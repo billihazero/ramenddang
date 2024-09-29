@@ -36,7 +36,7 @@ public class RamenPhotoService {
             for (MultipartFile image : ramenPhotos) {
 
                 //이미지 파일 경로 저장
-                String dbFilePath = saveRamenPhoto(image, ramenPhotoDir);
+                String dbFilePath = saveRamenPhoto(image);
 
                 RamenPhoto ramenPhoto = new RamenPhoto();
                 ramenPhoto.setRamen(ramen);
@@ -76,6 +76,28 @@ public class RamenPhotoService {
         for (RamenPhoto photo : DeletePhotos) {
             deleteRamenPhoto(photo);
         }
+
+        for(MultipartFile image : ramenPhotos){
+            if(!existingPhotosName.contains(image.getOriginalFilename())){
+                try{
+                    // 새로 업로드된 사진 저장
+                    String dbFilePath = saveRamenPhoto(image);
+
+                    // 새로운 RamenPhoto 객체 생성 및 저장
+                    RamenPhoto ramenPhoto = new RamenPhoto();
+                    ramenPhoto.setRamen(existingRamen);
+                    ramenPhoto.setOriginalName(image.getOriginalFilename());
+                    ramenPhoto.setPhotoUrl(dbFilePath);
+
+                    // DB에 저장
+                    ramenPhotoRepository.save(ramenPhoto);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
     public void deleteRamenPhoto(RamenPhoto photo){
@@ -94,7 +116,7 @@ public class RamenPhotoService {
         }
 
     }
-    private String saveRamenPhoto(MultipartFile image, String dir) throws IOException {
+    private String saveRamenPhoto(MultipartFile image) throws IOException {
 
         //고유값을 주기 위해서
         String fileName = UUID.randomUUID().toString().replace("-", "") + "_" + image.getOriginalFilename();
