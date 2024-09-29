@@ -40,3 +40,8 @@ ramen:
   image:
     dir: "src/main/resources/static/ramen/"
     url: "/ramen/"
+
+review:
+  image:
+    dir: "src/main/resources/static/review/"
+    url: "/review/"

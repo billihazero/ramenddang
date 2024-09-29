@@ -22,7 +22,7 @@ public class RamenController {
 
     //ramenlist 불러오기
     @GetMapping("/list")
-    public ResponseEntity<List<Ramen>> list() {
+    public ResponseEntity<List<Ramen>> getAllRamen() {
         List<Ramen> ramenList = ramenService.gatAllRamen();
         return ResponseEntity.ok(ramenList);
     }

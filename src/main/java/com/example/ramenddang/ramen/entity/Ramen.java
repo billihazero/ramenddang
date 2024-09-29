@@ -1,5 +1,6 @@
 package com.example.ramenddang.ramen.entity;
 
+import com.example.ramenddang.review.entity.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,5 +33,11 @@ public class Ramen {
     @OneToMany(mappedBy = "ramen", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference //순환참고 해결
     private List<RamenPhoto> ramenPhotos = new ArrayList<>();
+
+    //ramen 글이 사라지면 리뷰도 삭제되어야해
+    @OneToMany(mappedBy = "ramen", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference //순환참고 해결
+    private List<Review> reviews = new ArrayList<>();
+
     
 }
