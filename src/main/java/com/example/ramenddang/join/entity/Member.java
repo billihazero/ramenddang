@@ -1,5 +1,6 @@
 package com.example.ramenddang.join.entity;
 
+import com.example.ramenddang.bookmark.entity.Bookmark;
 import com.example.ramenddang.mypage.entity.Profile;
 import com.example.ramenddang.review.entity.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -39,4 +40,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Bookmark> bookmarks = new ArrayList<>();
 }

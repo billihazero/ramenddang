@@ -1,5 +1,6 @@
 package com.example.ramenddang.ramen.entity;
 
+import com.example.ramenddang.bookmark.entity.Bookmark;
 import com.example.ramenddang.review.entity.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -38,6 +39,10 @@ public class Ramen {
     @OneToMany(mappedBy = "ramen", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference //순환참고 해결
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ramen", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference //순환참고 해결
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     
 }
