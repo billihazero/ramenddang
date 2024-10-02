@@ -42,7 +42,7 @@ public class BookmarkController {
         return ResponseEntity.ok("bookmark added");
     }
 
-    @DeleteMapping("/delete/{ramenId")
+    @DeleteMapping("/delete/{ramenId}")
     public ResponseEntity<String> deleteBookmark(@PathVariable("ramenId") Long ramenId) {
         Long currentUserId = getCurrentUserId();
         boolean isDeleted = bookmarkService.deleteBookmark(ramenId, currentUserId);
