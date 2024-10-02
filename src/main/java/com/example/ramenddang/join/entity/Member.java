@@ -31,7 +31,7 @@ public class Member {
 
     private String userRole;
 
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference //순환참고 해결
@@ -44,4 +44,28 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Bookmark> bookmarks = new ArrayList<>();
+
+    public Member() {
+    }
+
+    //생성자를 통한 멤버 생성
+    public Member(String userLoginId, String userPasswd,String userPhone, String userName, String userNickname, String userEmail, String userRole) {
+        this.userLoginId = userLoginId;
+        this.userPasswd = userPasswd;
+        this.userPhone = userPhone;
+        this.userName = userName;
+        this.userNickname = userNickname;
+        this.userEmail = userEmail;
+        this.userRole = userRole;
+        this.isDeleted = false;
+    }
+
+    public static Member createMember(String userLoginId, String userPasswd, String userPhone, String userName, String userNickname, String userEmail) {
+        return new Member(userLoginId, userPasswd, userPhone, userName, userNickname, userEmail, "ROLE_USER");
+    }
+
+    public static Member createAdmin(String userLoginId, String userPasswd) {
+        return new Member(userLoginId, userPasswd, null, null, "admin", null, "ROLE_ADMIN");
+    }
+
 }
