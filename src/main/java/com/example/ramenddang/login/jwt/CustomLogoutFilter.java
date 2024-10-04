@@ -62,9 +62,15 @@ public class CustomLogoutFilter extends GenericFilter {
             }
         }
 
+        // 응답 바디에 메시지 정보 포함
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         //refresh 비어있으면 에러
         if (refresh == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            String responseBody = "{\"message\": \"refresh token이 존재하지 않습니다.\"}";
+            response.getWriter().write(responseBody);
             return;
         }
 
@@ -73,6 +79,8 @@ public class CustomLogoutFilter extends GenericFilter {
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            String responseBody = "{\"message\": \"refresh token이 존재하지 않습니다.\"}";
+            response.getWriter().write(responseBody);
             return;
         }
 
@@ -80,6 +88,8 @@ public class CustomLogoutFilter extends GenericFilter {
         String category = jwtUtil.getCategory(refresh);
         if (!category.equals("refresh")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            String responseBody = "{\"message\": \"refresh token이 존재하지 않습니다.\"}";
+            response.getWriter().write(responseBody);
             return;
         }
 
@@ -87,6 +97,8 @@ public class CustomLogoutFilter extends GenericFilter {
         UserRefresh cachedUserRefresh = tokenService.getUserRefresh(refresh);
         if (cachedUserRefresh == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            String responseBody = "{\"message\": \"refresh token이 존재하지 않습니다.\"}";
+            response.getWriter().write(responseBody);
         }
 
         //로그아웃 진행
