@@ -8,6 +8,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
@@ -50,7 +51,6 @@ public class CustomLogoutFilter extends GenericFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        System.out.println("로그아웃 접근");
 
         //refresh 토큰 가져오기
         String refresh = null;
@@ -84,7 +84,6 @@ public class CustomLogoutFilter extends GenericFilter {
         }
 
         //DB에 저장되어 있지 않으면 에러
-        System.out.println("redis에서 refresh 가져왔어 !");
         UserRefresh cachedUserRefresh = tokenService.getUserRefresh(refresh);
         if (cachedUserRefresh == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -97,7 +96,6 @@ public class CustomLogoutFilter extends GenericFilter {
 
         //캐시에서도 삭제
         tokenService.evictUserRefresh(refresh);
-        System.out.println("로그아웃 완료");
 
         //Refresh 토큰 Cookie 값 0
         Cookie cookie = new Cookie("refresh", null);
@@ -105,7 +103,15 @@ public class CustomLogoutFilter extends GenericFilter {
         cookie.setPath("/");
 
         response.addCookie(cookie);
+
+        // 응답 바디에 메시지 정보 포함
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // 로그아웃 성공
         response.setStatus(HttpServletResponse.SC_OK);
+        String responseBody = "{\"message\": \"로그아웃 성공하였습니다.\"}";
+        response.getWriter().write(responseBody);
     }
 
 }
