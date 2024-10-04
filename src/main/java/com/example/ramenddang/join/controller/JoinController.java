@@ -27,6 +27,8 @@ public class JoinController {
     /* 2024.10.02 리팩토링
     유효성 검사 로직 추가, 생성자 이용 로직 추가
     */
+    
+    //일반회원가입
     @PostMapping("/join")
     public ResponseEntity<?> joinMember(@RequestBody JoinDTO joinDTO) {
 
@@ -69,6 +71,7 @@ public class JoinController {
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 성공적으로 완료되었습니다.");
     }
     
+    //관리자 회원가입
     @PostMapping("/admin/join")
     public ResponseEntity<String> joinAdmin(@RequestBody JoinDTO joinDTO) {
         //DTO로부터 받은 데이터로 Member 객체 생성
@@ -86,6 +89,7 @@ public class JoinController {
         return ResponseEntity.status(HttpStatus.CREATED).body("관리자 회원가입이 성공적으로 완료되었습니다.");
     }
 
+    //아이디 중복확인 api
     @PostMapping("/checkid")
     public ResponseEntity<String> checkId(@RequestBody JoinDTO joinDTO){
         boolean isIdValid = joinService.checkId(joinDTO.userLoginId());
@@ -96,6 +100,7 @@ public class JoinController {
         return ResponseEntity.ok("아이디 사용이 가능합니다.");
     }
 
+    //아이디 중복확인 메소드
     private void validateId(String userLoginId) {
         boolean isExistMember = joinService.checkId(userLoginId);
 
@@ -105,6 +110,7 @@ public class JoinController {
         }
     }
 
+    //DTO 통한 Member 객체 생성
     private Member createMemberFromDTO(JoinDTO joinDTO) {
 
         return Member.createMember(joinDTO.userLoginId(),
@@ -116,6 +122,7 @@ public class JoinController {
         );
     }
 
+    //DTO 통한 Admin 객체 생성
     private Member createAdminFromDTO(JoinDTO joinDTO){
         return Member.createAdmin(joinDTO.userLoginId(),
                 bCryptPasswordEncoder.encode(joinDTO.userPasswd())
