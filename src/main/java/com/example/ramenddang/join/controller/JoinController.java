@@ -97,7 +97,7 @@ public class JoinController {
         if(isIdValid){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용중인 아이디 입니다."); // 409 Conflict
         }
-        return ResponseEntity.ok("아이디 사용이 가능합니다.");
+        return ResponseEntity.ok("사용 가능한 아이디 입니다.");
     }
 
     //아이디 중복확인 메소드
