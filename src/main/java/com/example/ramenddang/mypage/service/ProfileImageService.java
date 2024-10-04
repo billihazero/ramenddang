@@ -35,7 +35,7 @@ public class ProfileImageService {
     }
 
     @Transactional
-    public void saveProfileImage(ProfileDTO profileDTO, Long userId) throws IOException {
+    public void saveProfileImage(ProfileDTO profileDTO, Member currentMember) throws IOException {
 
         try {
             MultipartFile profileImg = profileDTO.profileImg();
@@ -58,11 +58,8 @@ public class ProfileImageService {
             //디렉토리에 파일 저장
             Files.write(path, profileImg.getBytes());
 
-            Member member = memberRepository.findById(userId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 userId를 가진 사용자가 존재하지 않습니다."));
-
             //멤버의 기존 profile
-            Profile profile = member.getProfile();
+            Profile profile = currentMember.getProfile();
 
             //profile 확인, profile이 존재한다면 삭제 후 새로 생성
             if(profile != null){
@@ -73,8 +70,8 @@ public class ProfileImageService {
 
                 //프로필 이미지 경로 업데이트
                 profile = new Profile();
-                profile.setMember(member);
-                member.setProfile(profile);
+                profile.setMember(currentMember);
+                currentMember.setProfile(profile);
             }
 
             profile.setProfileUrl(dbFilePath);
@@ -82,7 +79,7 @@ public class ProfileImageService {
             profileRepository.save(profile);
 
 
-            memberRepository.save(member);
+            memberRepository.save(currentMember);
 
         } catch (IOException e) {
             e.printStackTrace();
