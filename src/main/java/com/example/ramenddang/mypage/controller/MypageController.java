@@ -32,13 +32,7 @@ public class MypageController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 
-        Long userId = memberDetails.getUserId();
-        String userLoginId = authentication.getName();
-
-        System.out.println("userId = " + userId + " userLoginId = " + userLoginId);
-
-        return userId;
-
+        return memberDetails.getUserId();
     }
 
     //회원정보 조회
