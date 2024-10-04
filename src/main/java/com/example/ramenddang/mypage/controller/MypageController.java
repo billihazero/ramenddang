@@ -41,6 +41,7 @@ public class MypageController {
 
     }
 
+    //회원정보 조회
     @GetMapping("/get")
     public ResponseEntity<Member> getMyPage() {
         Long userId = getCurrentUserId();
@@ -51,6 +52,7 @@ public class MypageController {
         return ResponseEntity.ok(memberData);
     }
 
+    //회원정보 수정
     @PutMapping("/update")
     public ResponseEntity<?> updateMember(@RequestBody UpdateMemberDTO updateMemberDTO) {
         Long userId = getCurrentUserId();
@@ -68,6 +70,8 @@ public class MypageController {
         return ResponseEntity.ok(updateMemberData);
     }
 
+    //회원정보 삭제
+    //isDeleted= true로 변경한다.
     @PutMapping("/delete")
     public ResponseEntity<String> deleteMember(@RequestBody DeleteMemberDTO deleteMemberDTO) {
 
