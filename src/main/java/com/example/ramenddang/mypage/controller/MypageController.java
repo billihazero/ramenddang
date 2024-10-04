@@ -1,6 +1,7 @@
 package com.example.ramenddang.mypage.controller;
 
 import com.example.ramenddang.join.entity.Member;
+import com.example.ramenddang.join.repository.MemberRepository;
 import com.example.ramenddang.login.dto.MemberDetails;
 import com.example.ramenddang.mypage.dto.DeleteMemberDTO;
 import com.example.ramenddang.mypage.dto.UpdateMemberDTO;
@@ -8,15 +9,21 @@ import com.example.ramenddang.mypage.service.MyPageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/member")
 public class MypageController {
 
     private final MyPageService myPageService;
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public MypageController(MyPageService myPageService) {
+    public MypageController(MyPageService myPageService, MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder) {
         this.myPageService = myPageService;
+        this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -34,7 +41,7 @@ public class MypageController {
 
     }
 
-    @GetMapping("/memberget")
+    @GetMapping("/get")
     public ResponseEntity<Member> getMyPage() {
         Long userId = getCurrentUserId();
 
@@ -44,30 +51,42 @@ public class MypageController {
         return ResponseEntity.ok(memberData);
     }
 
-    @PutMapping("/memberupdate")
-    public ResponseEntity<Member> updateMember(@RequestBody UpdateMemberDTO updateMemberDTO) {
-
+    @PutMapping("/update")
+    public ResponseEntity<?> updateMember(@RequestBody UpdateMemberDTO updateMemberDTO) {
         Long userId = getCurrentUserId();
+        
+        //사용자 인증 정보 통해 member 객체 찾기
+        Member currentMember = memberRepository.findByUserId(userId);
 
-        Member updateMemberData = myPageService.updateMember(userId, updateMemberDTO);
+        // 기존 비밀번호와 DTO로 받은 비밀번호 비교
+        if (!passwordEncoder.matches(updateMemberDTO.userPasswd(), currentMember.getUserPasswd())) {
+          return ResponseEntity.status(400).body("비밀번호가 일치하지 않습니다.");
+        }
+
+        Member updateMemberData = myPageService.updateMember(currentMember, updateMemberDTO);
 
         return ResponseEntity.ok(updateMemberData);
     }
 
-    @PutMapping("/memberdelete")
+    @PutMapping("/delete")
     public ResponseEntity<String> deleteMember(@RequestBody DeleteMemberDTO deleteMemberDTO) {
 
         Long userId = getCurrentUserId();
 
-        boolean isDeleted = myPageService.deleteMember(userId, deleteMemberDTO);
+        //사용자 인증 정보 통해 member 객체 찾기
+        Member currentMember = memberRepository.findByUserId(userId);
 
-        if (isDeleted) {
-            return ResponseEntity.ok("회원 정보가 성공적으로 삭제되었습니다.");
-        } else {
-            return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
-
+        // 기존 비밀번호와 DTO로 받은 비밀번호 비교
+        if (!passwordEncoder.matches(deleteMemberDTO.inputPasswd(), currentMember.getUserPasswd())) {
+            return ResponseEntity.status(400).body("비밀번호가 일치하지 않습니다.");
         }
 
+        myPageService.deleteMember(currentMember);
+
+        return ResponseEntity.ok("회원 정보가 성공적으로 삭제되었습니다.");
+
     }
+
+
 
 }

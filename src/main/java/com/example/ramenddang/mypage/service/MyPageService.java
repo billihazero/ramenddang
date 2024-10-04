@@ -25,39 +25,27 @@ public class MyPageService {
          return memberData;
     }
 
-    public Member updateMember(Long userId, UpdateMemberDTO updateMemberDTO) {
-
-        //기존 회원정보 조회
-        Member existingMember = memberRepository.findByUserId(userId);
-
-        // 기존 비밀번호와 DTO로 받은 비밀번호 비교
-        if (!passwordEncoder.matches(updateMemberDTO.userPasswd(), existingMember.getUserPasswd())) {
-            throw new IllegalArgumentException("Password does not match");
-        }
+    public Member updateMember(Member currentMember, UpdateMemberDTO updateMemberDTO) {
 
         //업데이트
-        existingMember.setUserPhone(updateMemberDTO.userPhone());
-        existingMember.setUserName(updateMemberDTO.userName());
-        existingMember.setUserNickname(updateMemberDTO.userNickname());
-        existingMember.setUserEmail(updateMemberDTO.userEmail());
+        currentMember.setUserPhone(updateMemberDTO.userPhone());
+        currentMember.setUserName(updateMemberDTO.userName());
+        currentMember.setUserNickname(updateMemberDTO.userNickname());
+        currentMember.setUserEmail(updateMemberDTO.userEmail());
 
-        return memberRepository.save(existingMember);
+        //db 저장
+        return memberRepository.save(currentMember);
 
 
     }
 
-    public boolean deleteMember(Long userId, DeleteMemberDTO deleteMemberDTO) {
-        Member existingMember = memberRepository.findByUserId(userId);
-
-        String inputPasswd = deleteMemberDTO.inputPasswd();
-        if (passwordEncoder.matches(inputPasswd, existingMember.getUserPasswd())) {
-            existingMember.setIsDeleted(true);
-            memberRepository.save(existingMember);
-
-            return true;
-        }else{
-            throw new IllegalArgumentException("Password does not match");
-        }
-
+    public void deleteMember(Member currentMember) {
+        
+        //member 객체 isDeleted = true 로 변경
+        currentMember.setIsDeleted(true);
+        
+        //db 저장
+        memberRepository.save(currentMember);
+            
     }
 }
