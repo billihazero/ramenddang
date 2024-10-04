@@ -1,5 +1,6 @@
 package com.example.ramenddang.ramen.service;
 
+import com.example.ramenddang.exception.RamenNotFoundException;
 import com.example.ramenddang.ramen.dto.RamenDTO;
 import com.example.ramenddang.ramen.dto.UpdateRamenDTO;
 import com.example.ramenddang.ramen.entity.Ramen;
@@ -17,44 +18,20 @@ import java.util.List;
 public class RamenService {
 
     private final RamenRepository ramenRepository;
-    private final RamenPhotoRepository ramenPhotoRepository;
     private final RamenPhotoService ramenPhotoService;
 
-
-    @Value("${ramen.image.dir}")
-    private String ramenPhotoDir;
-
-    @Value("${ramen.image.url}")
-    private String ramenPhotoUrl;
-
-
-    public RamenService(RamenRepository ramenRepository, RamenPhotoRepository ramenPhotoRepository, RamenPhotoService ramenPhotoService) {
+    public RamenService(RamenRepository ramenRepository, RamenPhotoService ramenPhotoService) {
         this.ramenRepository = ramenRepository;
-        this.ramenPhotoRepository = ramenPhotoRepository;
         this.ramenPhotoService = ramenPhotoService;
     }
 
+    //라멘 리스트
     public List<Ramen> gatAllRamen(){
         return ramenRepository.findByIsDeletedFalse();
     }
 
-
-    public void ramenWrite(RamenDTO ramenDTO, List<MultipartFile> ramenPhotos) {
-
-        String ramenName = ramenDTO.ramenName();
-        String ramenMenu = ramenDTO.ramenMenu();
-        String ramenContent = ramenDTO.ramenContent();
-        String ramenState = ramenDTO.ramenState();
-        String ramenCity = ramenDTO.ramenCity();
-        String ramenAddress = ramenDTO.ramenAddress();
-
-        Ramen ramen = new Ramen();
-        ramen.setRamenName(ramenName);
-        ramen.setRamenMenu(ramenMenu);
-        ramen.setRamenContent(ramenContent);
-        ramen.setRamenState(ramenState);
-        ramen.setRamenCity(ramenCity);
-        ramen.setRamenAddress(ramenAddress);
+    //라멘가게 작성
+    public void ramenWrite(Ramen ramen, List<MultipartFile> ramenPhotos) {
 
         ramenRepository.save(ramen);
 
@@ -62,9 +39,11 @@ public class RamenService {
 
     }
 
+    //라멘가게 상세정보
     public Ramen getRamenDetail(int ramenId) {
+
         return ramenRepository.findByRamenIdAndIsDeletedFalse(ramenId)
-                .orElseThrow(() -> new RuntimeException("Ramen not found or is deleted for id: " + ramenId));
+                .orElseThrow(() -> new RamenNotFoundException("해당 라멘가게를 찾을 수 없습니다."));
     }
 
     public Ramen ramenUpdate(@PathVariable Long ramenId, UpdateRamenDTO updateRamenDTO, List<MultipartFile> ramenPhotos) {
