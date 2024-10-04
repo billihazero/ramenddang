@@ -10,11 +10,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -38,6 +41,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.tokenService = tokenService;
     }
 
+    //사용자 인증
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
@@ -60,16 +64,19 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
-    //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
+    //로그인 성공시 실행
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 
         // 삭제된 계정인지 확인
         if (memberDetails.isDeleted()) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
             // 삭제된 계정일 경우 로그인 차단
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write("Account is deleted.");
+            response.getWriter().write("해당 ID는 삭제된 계정입니다.");
             return;
         }
 
@@ -94,17 +101,37 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
 
-        System.out.println("access발급 성공 !" + "userId:" +userId + "userLoginId:" + userLoginId);
+        // 응답 바디에 메시지 및 토큰 정보 포함
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        // JSON 형식으로 응답 바디 생성
+        String responseBody = String.format("{\"message\": \"로그인 성공하였습니다.\", \"access\": \"%s\", \"refresh\": \"%s\"}", access, refresh);
+
+        // 응답 바디 출력
+        response.getWriter().write(responseBody);
+
+        // 상태 코드 200 OK 설정
+        response.setStatus(HttpStatus.OK.value());
 
     }
 
     //로그인 실패시 실행하는 메소드
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
 
-        response.setStatus(401);
+        // 응답 바디에 메시지 정보 포함
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // 인증 실패
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        String responseBody = "{\"message\": \"비밀번호가 일치하지 않거나 존재하지 않는 계정입니다.\"}";
+        response.getWriter().write(responseBody);
+        
     }
 
+    //refresh cookie 생성
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
@@ -116,6 +143,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         return cookie;
     }
 
+    //refresh DB 저장
     private void addRefresh(String userLoginId, String refresh) {
 
         Date date = new Date(System.currentTimeMillis() + 86400000L);
