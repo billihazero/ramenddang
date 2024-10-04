@@ -28,7 +28,7 @@ public class Ramen {
     private String ramenCity;
     private String ramenAddress;
 
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
     
     //ramen 글이 사라지면 사진도 삭제되어야해
     @OneToMany(mappedBy = "ramen", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -44,5 +44,23 @@ public class Ramen {
     @JsonManagedReference //순환참고 해결
     private List<Bookmark> bookmarks = new ArrayList<>();
 
-    
+    public Ramen(){
+
+    }
+
+    public Ramen(String ramenName, String ramenMenu, String ramenContent, String ramenState, String ramenCity, String ramenAddress, Boolean isDeleted) {
+        this.ramenName = ramenName;
+        this.ramenMenu = ramenMenu;
+        this.ramenContent = ramenContent;
+        this.ramenState = ramenState;
+        this.ramenCity = ramenCity;
+        this.ramenAddress = ramenAddress;
+        this.isDeleted = false;
+
+    }
+
+    public static Ramen createRamen(String ramenName, String ramenMenu, String ramenContent, String ramenState, String ramenCity, String ramenAddress){
+        return new Ramen(ramenName, ramenMenu, ramenContent, ramenState, ramenCity, ramenAddress, false);
+    }
+
 }
