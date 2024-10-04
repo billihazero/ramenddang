@@ -31,13 +31,6 @@ public class JoinService {
         memberRepository.save(member);
     }
 
-    //중복되는 ID 있을경우 ERROR
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public static class ExistingMemberException extends IllegalStateException{
-        public ExistingMemberException() {
-            super("이미 존재하는 회원입니다.");
-        }
-    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.ramenddang.join.controller;
 
+import com.example.ramenddang.exception.ExistingMemberException;
 import com.example.ramenddang.join.dto.JoinDTO;
 import com.example.ramenddang.join.entity.Member;
 import com.example.ramenddang.join.service.JoinService;
@@ -38,7 +39,7 @@ public class JoinController {
         //동일한 id가 존재하는지 유효성 검사
         try {
             validateId(member.getUserLoginId());
-        }catch(JoinService.ExistingMemberException e) {
+        }catch(ExistingMemberException e) {
             return ResponseEntity.badRequest().body(member.getUserLoginId() + ": 이미 등록된 ID 입니다.");
         }
 
@@ -80,7 +81,7 @@ public class JoinController {
         //동일한 id가 존재하는지 유효성 검사
         try {
             validateId(member.getUserLoginId());
-        }catch(JoinService.ExistingMemberException e) {
+        }catch(ExistingMemberException e) {
             return ResponseEntity.badRequest().body(member.getUserLoginId() + ": 이미 등록된 ID 입니다.");
         }
 
@@ -106,7 +107,7 @@ public class JoinController {
 
         if(isExistMember) {
             log.error("이미 등록된 id 입니다.");
-            throw new JoinService.ExistingMemberException();
+            throw new ExistingMemberException();
         }
     }
 
