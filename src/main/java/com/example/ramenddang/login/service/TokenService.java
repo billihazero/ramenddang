@@ -14,6 +14,7 @@ public class TokenService {
         this.cacheManager = cacheManager;
     }
 
+    //insert refresh token 
     @CachePut(cacheNames = "userRefresh", key = "'refresh:' + #refresh ", cacheManager = "refreshCacheManager")
     public UserRefresh cacheUserRefresh(String refresh) {
 
@@ -22,10 +23,11 @@ public class TokenService {
 
         return userRefresh;
     }
-
+    
+    //저장된 refresh 가져오기
     public UserRefresh getUserRefresh(String refresh) {
         String key = "refresh:" + refresh;
-        Cache cache = cacheManager.getCache("memberRefresh");
+        Cache cache = cacheManager.getCache("userRefresh");
         if (cache != null) {
             return cache.get(key, UserRefresh.class);
         }
