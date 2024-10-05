@@ -29,6 +29,7 @@ public class RamenPhotoService {
         this.ramenPhotoRepository = ramenPhotoRepository;
     }
 
+    //라멘가게 사진 업로드
     public void uploadRamenPhoto(Ramen ramen, List<MultipartFile> ramenPhotos){
 
         try{
@@ -53,6 +54,7 @@ public class RamenPhotoService {
 
     }
 
+    //라멘가게 사진 수정
     public void updateRamenPhoto(Ramen existingRamen, List<MultipartFile> ramenPhotos) {
 
         //기존 사진 목록의 파일 이름 불러오기
@@ -100,6 +102,7 @@ public class RamenPhotoService {
         }
     }
 
+    //업데이트 중 삭제하는 이미지
     public void deleteRamenPhoto(RamenPhoto photo){
 
         //db삭제
@@ -116,6 +119,8 @@ public class RamenPhotoService {
         }
 
     }
+
+    //사진 파일 저장 경로
     private String saveRamenPhoto(MultipartFile image) throws IOException {
 
         //고유값을 주기 위해서
