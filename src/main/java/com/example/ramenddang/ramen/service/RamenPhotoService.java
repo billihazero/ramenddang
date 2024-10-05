@@ -1,8 +1,10 @@
 package com.example.ramenddang.ramen.service;
 
+import com.example.ramenddang.exception.FileUploadException;
 import com.example.ramenddang.ramen.entity.Ramen;
 import com.example.ramenddang.ramen.entity.RamenPhoto;
 import com.example.ramenddang.ramen.repository.RamenPhotoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,7 @@ public class RamenPhotoService {
     }
 
     //라멘가게 사진 업로드
+    @Transactional
     public void uploadRamenPhoto(Ramen ramen, List<MultipartFile> ramenPhotos){
 
         try{
@@ -55,6 +58,7 @@ public class RamenPhotoService {
     }
 
     //라멘가게 사진 수정
+    @Transactional
     public void updateRamenPhoto(Ramen existingRamen, List<MultipartFile> ramenPhotos) {
 
         //기존 사진 목록의 파일 이름 불러오기
@@ -95,7 +99,7 @@ public class RamenPhotoService {
                     ramenPhotoRepository.save(ramenPhoto);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                        throw new FileUploadException("파일 업로드 중 오류가 발생했습니다.");
                 }
 
             }
