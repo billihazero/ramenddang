@@ -1,5 +1,6 @@
 package com.example.ramenddang.review.service;
 
+import com.example.ramenddang.exception.FileUploadException;
 import com.example.ramenddang.join.entity.Member;
 import com.example.ramenddang.join.repository.MemberRepository;
 import com.example.ramenddang.ramen.entity.Ramen;
@@ -9,6 +10,7 @@ import com.example.ramenddang.review.entity.Review;
 import com.example.ramenddang.review.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,8 +23,6 @@ import java.util.UUID;
 @Service
 public class ReviewService {
 
-    private final RamenRepository ramenRepository;
-    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
     @Value("${review.image.dir}")
@@ -31,13 +31,13 @@ public class ReviewService {
     @Value("${ramen.image.url}")
     private String reviewUrl;
 
-    public ReviewService(RamenRepository ramenRepository, MemberRepository memberRepository, ReviewRepository reviewRepository) {
-        this.ramenRepository = ramenRepository;
-        this.memberRepository = memberRepository;
+    public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
-    public void writeReview(ReviewDTO reviewDTO, long ramenId, Long currentUserId) throws IOException {
+    //리뷰 작성
+    @Transactional
+    public void writeReview(ReviewDTO reviewDTO,  Member currentMember, Ramen currentRamen) throws IOException {
 
         try{
             MultipartFile reviewImg = reviewDTO.reviewImg();
@@ -60,44 +60,38 @@ public class ReviewService {
             //디렉토리에 파일 저장
             Files.write(path, reviewImg.getBytes());
 
-            //ramenId로 Ramen 찾기
-            Ramen ramen = ramenRepository.findByRamenId(ramenId);
-
-            //userId로 member 찾기
-            Member member = memberRepository.findByUserId(currentUserId);
-
             //review 객체 생성 및 db 저장
             Review review = new Review();
-            review.setRamen(ramen);
-            review.setMember(member);
+
+            review.setRamen(currentRamen);
+            review.setMember(currentMember);
             review.setReviewUrl(dbFilePath);
 
             reviewRepository.save(review);
 
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException("리뷰 저장중 오류가 발생했습니다.",e);
+        }catch (IOException e) {
+            throw new FileUploadException("파일 업로드 중 오류가 발생했습니다.");
+        }catch (Exception e) {
+            throw new RuntimeException("리뷰 저장 중 알 수 없는 오류가 발생했습니다.", e);
         }
     }
 
-    public List<Review> getAllReview(Long ramenId) {
+    //리뷰 리스트 
+    public List<Review> getAllReview(Ramen currentRamen) {
 
-        Ramen existingRamen = ramenRepository.findByRamenId(ramenId);
-        return reviewRepository.findByRamenAndIsDeletedFalse(existingRamen);
+        return reviewRepository.findByRamenAndIsDeletedFalse(currentRamen);
     }
 
-    public boolean deleteReview(long reviewId,Long currentUserId) {
-        // review 작성한 user정보
-        Review existingReivew = reviewRepository.findByReviewId(reviewId);
-        Member reviewer = existingReivew.getMember();
+    //리뷰 삭제 isDeleted = true로 변경
+    public boolean deleteReview(Member currentMember, Review currentReview) {
 
-        if(reviewer.getUserId().equals(currentUserId)){
-            existingReivew.setIsDeleted(true);
-            reviewRepository.save(existingReivew);
+        //리뷰 작성자와 삭제 요청한 사람이 같은지 확인
+        if(currentReview.getMember().equals(currentMember)){
+            currentReview.setIsDeleted(true);
+            reviewRepository.save(currentReview);
         }else{
             return false;
         }
-
         return true;
 
     }
