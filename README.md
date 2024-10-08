@@ -24,7 +24,7 @@
 <br/>
 
 ## 3. ERD 설계
-![erdfile](/images/image.png)
+![erdfile](https://github.com/billihazero/portfolio/blob/main/images/image.png)
 <br/>
 
 ## 4. 핵심 기능
