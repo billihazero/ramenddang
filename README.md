@@ -104,8 +104,8 @@ JsonManagedReference는 부모 객체에, JsonBackReference는 자식 객체에 
 #### 6-2. Postman multifile Post 415 에러
 - Postman에서 데이터 전송하는것이 문제였다. Content-type을 선택한 후에 part별 type을 자세하게 선택했어야 했다.
 
-
-### 7. 진행상황
+<details>
+<summary>진행상황 </summary>
 - 회원
   - 회원가입
     - 패스워드 암호화 (완료)
@@ -156,3 +156,4 @@ JsonManagedReference는 부모 객체에, JsonBackReference는 자식 객체에 
     - 삭제
     - 조회수
 
+</details>
