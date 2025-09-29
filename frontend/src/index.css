@@ -2,3 +2,16 @@
 index.css = 공통으로 적용되는 css 전역 스타일 정의
 ex = font나 레이아웃 규칙
 */
+
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+.fullscreen {
+  position: fixed; /* 화면 가득 */
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+}
