@@ -6,10 +6,12 @@ import Navbar from './layout/Navbar';
 function Layout() {
   return (
     <div className='flex h-screen justify-between'>
-      <Navbar />
-      <aside className='w-[360px] border-r bg-white overflow-auto'>
-        <Outlet />
-      </aside>
+      <div>
+        <aside className='w-[360px] bg-white overflow-auto'>
+          <Navbar />
+          <Outlet />
+        </aside>
+      </div>
       <section className='flex-1 relative'>
         <KakaoMap />
       </section>
