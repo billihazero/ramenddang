@@ -1,11 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+const routes = [
+  { to: '/search', name: '검색' },
+  { to: '/my', name: 'MY' },
+];
 
 const NavItem = () => {
   return (
-    <div className='h-full flex flex-col justify-between'>
-      <div>메뉴</div>
-      <div>계정부분</div>
-    </div>
+    <ul className='h-full flex  justify-around items-center'>
+      {routes.map(({ to, name }) => {
+        return (
+          <li key={name} className='text-xl text-white '>
+            <Link to={to}>{name}</Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 

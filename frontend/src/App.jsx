@@ -7,7 +7,7 @@ function Layout() {
   return (
     <div className='flex h-screen justify-between'>
       <div>
-        <aside className='w-[360px] bg-white overflow-auto'>
+        <aside className='w-[400px] bg-white overflow-auto'>
           <Navbar />
           <Outlet />
         </aside>
