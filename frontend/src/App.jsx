@@ -7,6 +7,7 @@ import NotAuthRoutes from './components/Auth/NotAuthRoutes';
 import LoginPage from './pages/LoginPage';
 import MyPage from './pages/MyPage';
 import MainLayout from './layout/MainLayout';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         {/* 로그인한 사람은 갈 수 없는 경로 */}
         {/* <Route element={<NotAuthRoutes />}> */}
         <Route path='login' element={<LoginPage />} />
+        <Route path='register' element={<RegisterPage />} />
         {/* </Route> */}
       </Route>
     </Routes>

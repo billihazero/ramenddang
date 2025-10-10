@@ -1,36 +1,51 @@
+import { Button, Flex, Form, Input, Typography } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import React from 'react';
+
+const { Title } = Typography;
 
 const LoginPage = () => {
   return (
     <>
-      <div className=' flex justify-center items-center'>
-        <div className=' flex flex-col justify-center mt-40'>
-          <h1 className='text-center text-3xl mb-3 text-gray-500'>라멘땅</h1>
-          <form>
-            <div className='mb-2'>
-              <input
-                type='text'
-                id='id'
-                placeholder='아이디'
-                className='border-2 border-amber-200 w-60 h-10 rounded-lg pl-3 focus:outline-none focus:border-amber-400 transition-colors duration-200'
-              />
-            </div>
-            <div className='mb-5'>
-              <input
-                type='password '
-                id='password'
-                placeholder='비밀번호'
-                className='border-2 border-amber-200 w-60 h-10 rounded-lg pl-3 focus:outline-none focus:border-amber-400 transition-colors duration-200'
-              />
-            </div>
-            <div>
-              <button className=' w-60 h-10 rounded-lg bg-amber-300 text-white text-lg'>
-                로그인
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <Flex vertical align='center' className='!mt-30'>
+        <Title type='secondary' level={2}>
+          라멘땅
+        </Title>
+        <Form name='login' className=' w-80 items-center'>
+          <Form.Item className='!mb-4'>
+            <Input
+              type='text'
+              prefix={<UserOutlined />}
+              size='large'
+              placeholder='아이디'
+              className='!border-amber-300 hover:!border-amber-400 focus-within:!border-amber-400 !transition-colors !duration-200'
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              type='password'
+              prefix={<LockOutlined />}
+              size='large'
+              placeholder='비밀번호'
+              className='!border-amber-300 hover:!border-amber-400 focus-within:!border-amber-400 !transition-colors !duration-200'
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              block
+              htmlType='submit'
+              type='text'
+              size='large'
+              className='!bg-amber-300 !text-white !mb-0'
+            >
+              로그인
+            </Button>
+          </Form.Item>
+        </Form>
+        <a href='/register' className='!text-gray-400'>
+          회원가입
+        </a>
+      </Flex>
     </>
   );
 };
