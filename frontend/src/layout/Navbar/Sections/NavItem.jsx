@@ -1,3 +1,4 @@
+import { Button, Flex } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,15 +9,21 @@ const routes = [
 
 const NavItem = () => {
   return (
-    <ul className='h-full flex  justify-around items-center'>
+    <Flex justify='space-around' className='bg-amber-300'>
       {routes.map(({ to, name }) => {
         return (
-          <li key={name} className='text-xl text-white '>
+          <Button
+            type='link'
+            size='large'
+            ghost
+            key={name}
+            className='!text-white'
+          >
             <Link to={to}>{name}</Link>
-          </li>
+          </Button>
         );
       })}
-    </ul>
+    </Flex>
   );
 };
 

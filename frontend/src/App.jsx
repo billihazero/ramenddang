@@ -6,36 +6,20 @@ import ProtectedRoutes from './components/Auth/ProtectedRoutes';
 import NotAuthRoutes from './components/Auth/NotAuthRoutes';
 import LoginPage from './pages/LoginPage';
 import MyPage from './pages/MyPage';
+import MainLayout from './layout/MainLayout';
 
-function Layout() {
-  return (
-    <div className='flex h-screen '>
-      <div>
-        <aside className='w-[400px] bg-white overflow-auto'>
-          <Navbar />
-          <Outlet />
-        </aside>
-      </div>
-      <section className='flex-1 relative'>
-        <KakaoMap />
-      </section>
-    </div>
-  );
-}
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route path='/' element={<MainLayout />}>
         <Route index element={<SearchPage />} />
-
         {/* 로그인한 사람만 갈 수 있는 경로 */}
         {/* <Route element={<ProtectedRoutes />}>
-          <Route path='/my' element={<MyPage />} />
-        </Route> */}
-
+         <Route path='/my' element={<MyPage />} />
+       </Route> */}
         {/* 로그인한 사람은 갈 수 없는 경로 */}
         {/* <Route element={<NotAuthRoutes />}> */}
-        <Route path='/login' element={<LoginPage />} />
+        <Route path='login' element={<LoginPage />} />
         {/* </Route> */}
       </Route>
     </Routes>
@@ -43,3 +27,19 @@ function App() {
 }
 
 export default App;
+
+// <Routes>
+//     <Route path='/' element={<Layout />}>
+//       <Route index element={<SearchPage />} />
+
+//       {/* 로그인한 사람만 갈 수 있는 경로 */}
+//       {/* <Route element={<ProtectedRoutes />}>
+//         <Route path='/my' element={<MyPage />} />
+//       </Route> */}
+
+//       {/* 로그인한 사람은 갈 수 없는 경로 */}
+//       {/* <Route element={<NotAuthRoutes />}> */}
+//       <Route path='/login' element={<LoginPage />} />
+//       {/* </Route> */}
+//     </Route>
+//   </Routes>

@@ -1,19 +1,22 @@
 import React from 'react';
+import { Flex, Input } from 'antd';
 import { AiOutlineSearch } from 'react-icons/ai';
 const SearchInput = () => {
   return (
-    <div>
-      <div className='flex justify-between items-center border-2  border-amber-300 rounded-2xl'>
-        <div className='pl-3'>
+    <>
+      <Flex className=' items-center border-2 w-80 border-amber-300 rounded-2xl'>
+        <Flex>
           <AiOutlineSearch className='text-3xl text-amber-400' />
-        </div>
-        <input
+        </Flex>
+        <Input
           type='text'
-          className='w-65 h-12 p-3 border-none focus:outline-none'
+          size='large'
+          variant='borderless'
+          className='w-70 h-10 p-3'
           placeholder='라멘집 검색'
         />
-      </div>
-    </div>
+      </Flex>
+    </>
   );
 };
 

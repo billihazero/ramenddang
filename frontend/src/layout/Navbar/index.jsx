@@ -1,22 +1,23 @@
 import React from 'react';
 import NavItem from './Sections/NavItem';
 import logoUrl from '@assets/images/logo.png';
+import { Input } from 'antd';
 import SearchInput from './Sections/SearchInput';
+import { Flex } from 'antd';
 
 const Navbar = () => {
   return (
-    <nav className='flex flex-col h-full'>
-      {/* logo */}
-      <div className='flex justify-around items-center m-2  mt-5 mb-4'>
-        <div className='h-15 w-15 '>
-          <img src={logoUrl} />
-        </div>
-        <SearchInput />
-      </div>
-      <div className='bg-amber-300 h-12'>
+    <>
+      <Flex vertical>
+        <Flex justify='space-between' align='center' className=' w-full !p-1'>
+          <Flex className='h-15 w-15'>
+            <img src={logoUrl} />
+          </Flex>
+          <SearchInput />
+        </Flex>
         <NavItem />
-      </div>
-    </nav>
+      </Flex>
+    </>
   );
 };
 
