@@ -18,12 +18,12 @@ function App() {
         {/* <Route element={<ProtectedRoutes />}>
          <Route path='/my' element={<MyPage />} />
        </Route> */}
-        {/* 로그인한 사람은 갈 수 없는 경로 */}
-        {/* <Route element={<NotAuthRoutes />}> */}
-        <Route path='login' element={<LoginPage />} />
-        <Route path='register' element={<RegisterPage />} />
-        {/* </Route> */}
       </Route>
+      {/* 로그인한 사람은 갈 수 없는 경로 */}
+      {/* <Route element={<NotAuthRoutes />}> */}
+      <Route path='login' element={<LoginPage />} />
+      <Route path='register' element={<RegisterPage />} />
+      {/* </Route> */}
     </Routes>
   );
 }

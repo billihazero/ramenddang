@@ -7,7 +7,7 @@ const { Title } = Typography;
 const LoginPage = () => {
   return (
     <>
-      <Flex vertical align='center' className='!mt-30'>
+      <Flex vertical align='center' justify='center' className='h-full'>
         <Title type='secondary' level={2}>
           라멘땅
         </Title>

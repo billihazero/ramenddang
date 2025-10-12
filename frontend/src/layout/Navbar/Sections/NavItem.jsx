@@ -2,24 +2,24 @@ import { Button, Flex } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const routes = [
-  { to: '/search', name: '검색' },
-  { to: '/my', name: 'MY' },
+const tabs = [
+  { key: 'search', label: '검색' },
+  { key: 'my', label: 'MY' },
 ];
 
-const NavItem = () => {
+const NavItem = ({ activeTab, onChangeTab }) => {
   return (
     <Flex justify='space-around' className='bg-amber-300'>
-      {routes.map(({ to, name }) => {
+      {tabs.map(({ key, label }) => {
         return (
           <Button
             type='link'
             size='large'
-            ghost
-            key={name}
-            className='!text-white'
+            key={key}
+            onClick={() => onChangeTab(key)}
+            className={`!text-white ${activeTab === key ? '!underline' : ''}`}
           >
-            <Link to={to}>{name}</Link>
+            {label}
           </Button>
         );
       })}

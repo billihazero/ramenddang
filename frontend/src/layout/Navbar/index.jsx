@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { act } from 'react';
 import NavItem from './Sections/NavItem';
 import logoUrl from '@assets/images/logo.png';
 import { Input } from 'antd';
 import SearchInput from './Sections/SearchInput';
 import { Flex } from 'antd';
 
-const Navbar = () => {
+const Navbar = ({ activeTab, onChangeTab }) => {
   return (
     <>
       <Flex vertical>
@@ -19,7 +19,7 @@ const Navbar = () => {
           </Flex>
           <SearchInput />
         </Flex>
-        <NavItem />
+        <NavItem activeTab={activeTab} onChangeTab={onChangeTab} />
       </Flex>
     </>
   );

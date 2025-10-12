@@ -6,7 +6,7 @@ const { Title } = Typography;
 const RegisterPage = () => {
   return (
     <>
-      <Flex vertical align='center' className='!mt-30'>
+      <Flex vertical align='center' justify='center' className='h-full'>
         <Title type='secondary' level={2}>
           회원가입
         </Title>
