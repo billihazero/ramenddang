@@ -1,7 +1,6 @@
-import React, { act } from 'react';
+import React from 'react';
 import NavItem from './Sections/NavItem';
 import logoUrl from '@assets/images/logo.png';
-import { Input } from 'antd';
 import SearchInput from './Sections/SearchInput';
 import { Flex } from 'antd';
 

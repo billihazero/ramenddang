@@ -15,6 +15,11 @@ createRoot(document.getElementById('root')).render(
             activeBorderColor: '#FCD34D',
             activeShadow: '0 0 0 2px rgba(252,211,77,.28)',
           },
+          Button: {
+            colorPrimary: '#FCD34D',
+            colorPrimaryActive: '#FCD34D',
+            colorPrimaryHover: '#FCD34D',
+          },
         },
       }}
     >
