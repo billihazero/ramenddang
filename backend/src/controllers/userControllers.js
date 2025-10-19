@@ -29,7 +29,9 @@ export const createUser = async (req, res, next) => {
     const newUser = await prisma.tb_user.create({
       data: { ...userData, user_ps: hashed },
     });
-    successRes(res, newUser, '사용자 회원가입 성공', 1);
+
+    const { user_ps: _hide, ...safeUser } = newUser;
+    successRes(res, safeUser, '사용자 회원가입 성공', 1);
   } catch (err) {
     next(err);
   }
