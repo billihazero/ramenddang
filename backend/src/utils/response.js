@@ -9,9 +9,9 @@ export const successRes = (res, data = [], message = '성공', total = null) => 
 
 export const errorRes = (
   res,
-  data = [],
   message = '에러발생',
   statusCode = 500,
+  data = [],
 ) => {
   res.status(statusCode).json({
     status: false,
